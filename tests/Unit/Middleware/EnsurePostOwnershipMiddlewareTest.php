@@ -136,4 +136,53 @@ class EnsurePostOwnershipMiddlewareTest extends TestCase
         $response = $this->middleware->handle($request, fn () => new Response('passed'));
         $this->assertSame('passed', $response->getContent());
     }
+
+    public function test_member_accessing_own_user_route_param_passes(): void
+    {
+        $user = User::factory()->member()->create();
+
+        $request = Request::create("/admin/users/{$user->id}/posts");
+        $request->setUserResolver(fn () => $user);
+        $request->setRouteResolver(function () use ($user) {
+            $route = new \Illuminate\Routing\Route('GET', 'admin/users/{user}/posts', []);
+            $route->parameters = ['user' => $user];
+            return $route;
+        });
+
+        $response = $this->middleware->handle($request, fn () => new Response('passed'));
+        $this->assertSame('passed', $response->getContent());
+    }
+
+    public function test_non_existent_post_id_passes_ownership_middleware(): void
+    {
+        $user = User::factory()->member()->create();
+
+        $request = Request::create('/dashboard/posts/999999');
+        $request->setUserResolver(fn () => $user);
+        $request->setRouteResolver(function () {
+            $route = new \Illuminate\Routing\Route('GET', 'dashboard/posts/{post}', []);
+            $route->parameters = ['post' => 999999];
+            return $route;
+        });
+
+        $response = $this->middleware->handle($request, fn () => new Response('passed'));
+        $this->assertSame('passed', $response->getContent());
+    }
+
+    public function test_owner_performing_unsafe_method_passes(): void
+    {
+        $user = User::factory()->member()->create();
+        $post = Post::factory()->create(['user_id' => $user->id]);
+
+        $request = Request::create("/dashboard/posts/{$post->id}", 'DELETE');
+        $request->setUserResolver(fn () => $user);
+        $request->setRouteResolver(function () use ($post) {
+            $route = new \Illuminate\Routing\Route('DELETE', 'dashboard/posts/{post}', []);
+            $route->parameters = ['post' => $post];
+            return $route;
+        });
+
+        $response = $this->middleware->handle($request, fn () => new Response('passed'));
+        $this->assertSame('passed', $response->getContent());
+    }
 }

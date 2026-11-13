@@ -82,4 +82,28 @@ class RegisterTest extends TestCase
         $response = $this->actingAs($member)->get('/register');
         $response->assertRedirect('/');
     }
+
+    public function test_register_user_action_direct_execution(): void
+    {
+        $action = new \App\Features\Auth\Actions\RegisterUserAction();
+
+        // Without role (defaults to member)
+        $member = $action->execute([
+            'name' => 'Direct Member',
+            'username' => 'direct_member',
+            'email' => 'direct_member@test.com',
+            'password' => 'secret123',
+        ]);
+        $this->assertSame('member', $member->role);
+
+        // With role specified
+        $admin = $action->execute([
+            'name' => 'Direct Admin',
+            'username' => 'direct_admin',
+            'email' => 'direct_admin@test.com',
+            'password' => 'secret123',
+            'role' => 'admin',
+        ]);
+        $this->assertSame('admin', $admin->role);
+    }
 }

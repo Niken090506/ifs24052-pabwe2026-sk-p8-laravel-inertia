@@ -133,4 +133,24 @@ class LoginTest extends TestCase
         $response->assertRedirect(route('login'));
         $this->assertGuest();
     }
+
+    public function test_login_user_action_direct_execution(): void
+    {
+        User::factory()->create([
+            'username' => 'direct_user',
+            'email' => 'direct@test.com',
+            'password' => Hash::make('password123'),
+        ]);
+
+        $action = new \App\Features\Auth\Actions\LoginUserAction();
+
+        // Successful with email
+        $this->assertTrue($action->execute('direct@test.com', 'password123'));
+
+        // Successful with username
+        $this->assertTrue($action->execute('direct_user', 'password123', true));
+
+        // Failed with wrong credentials
+        $this->assertFalse($action->execute('direct_user', 'wrong-pass'));
+    }
 }

@@ -41,6 +41,37 @@ class AdminPostControllerTest extends TestCase
             );
     }
 
+    public function test_admin_can_filter_all_posts(): void
+    {
+        $admin = User::factory()->admin()->create();
+        Post::factory()->create([
+            'title' => 'Teknologi Masa Kini',
+            'category' => 'Teknologi',
+            'is_published' => true,
+        ]);
+        Post::factory()->create([
+            'title' => 'Draf Rahasia',
+            'category' => 'Opini',
+            'is_published' => false,
+        ]);
+
+        $publishedRes = $this->actingAs($admin)->get('/admin/posts?search=Teknologi&category=Teknologi&status=published');
+        $publishedRes->assertStatus(200)
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin/PostList')
+                ->has('posts.data', 1)
+                ->where('filters.status', 'published')
+            );
+
+        $draftRes = $this->actingAs($admin)->get('/admin/posts?status=draft');
+        $draftRes->assertStatus(200)
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin/PostList')
+                ->has('posts.data', 1)
+                ->where('filters.status', 'draft')
+            );
+    }
+
     public function test_admin_can_export_all_posts(): void
     {
         $admin = User::factory()->admin()->create();

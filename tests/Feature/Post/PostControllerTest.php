@@ -46,6 +46,15 @@ class PostControllerTest extends TestCase
                 ->where('stats.draft', 1)
                 ->has('categories')
             );
+
+        // Test with filters
+        $this->actingAs($user)
+            ->get('/dashboard/posts?search=Test&category=Teknologi&status=published')
+            ->assertStatus(200);
+
+        $this->actingAs($user)
+            ->get('/dashboard/posts?status=draft')
+            ->assertStatus(200);
     }
 
     public function test_store_validation_and_creation(): void
@@ -230,12 +239,16 @@ class PostControllerTest extends TestCase
             ->postJson('/dashboard/posts/ai-generate', ['prompt' => ''])
             ->assertStatus(422);
 
-        // Invalid count -> 422
+        // Invalid count (< 1 or > 10) -> 422
         $this->actingAs($user)
             ->postJson('/dashboard/posts/ai-generate', ['prompt' => 'Topic', 'count' => 0])
             ->assertStatus(422);
 
-        // Success
+        $this->actingAs($user)
+            ->postJson('/dashboard/posts/ai-generate', ['prompt' => 'Topic', 'count' => 11])
+            ->assertStatus(422);
+
+        // Success with standard params
         $response = $this->actingAs($user)
             ->postJson('/dashboard/posts/ai-generate', [
                 'prompt' => 'Kecerdasan Buatan',
@@ -249,6 +262,14 @@ class PostControllerTest extends TestCase
                     ['title' => 'AI Title', 'category' => 'Teknologi'],
                 ],
             ]);
+
+        // Success with alternate param names aiPrompt and aiCount
+        $responseAlt = $this->actingAs($user)
+            ->postJson('/dashboard/posts/ai-generate', [
+                'aiPrompt' => 'Kecerdasan Buatan Alt',
+                'aiCount' => 2,
+            ]);
+        $responseAlt->assertStatus(200);
     }
 
     public function test_generate_ai_exception_handling(): void
@@ -280,6 +301,11 @@ class PostControllerTest extends TestCase
             ->post('/dashboard/posts/ai-save', ['items' => []])
             ->assertSessionHas('error');
 
+        // Non-array input -> error
+        $this->actingAs($user)
+            ->post('/dashboard/posts/ai-save', ['items' => 'not-an-array'])
+            ->assertSessionHas('error');
+
         // Valid items -> success
         $this->actingAs($user)
             ->post('/dashboard/posts/ai-save', [
@@ -297,5 +323,18 @@ class PostControllerTest extends TestCase
             'user_id' => $user->id,
             'title' => 'Saved AI Post 1',
         ]);
+
+        // Valid with alternate param name 'posts'
+        $this->actingAs($user)
+            ->post('/dashboard/posts/ai-save', [
+                'posts' => [
+                    [
+                        'title' => 'Saved AI Post from posts param',
+                        'category' => 'Bisnis',
+                        'content' => 'Content from AI',
+                    ],
+                ],
+            ])
+            ->assertSessionHas('success');
     }
 }

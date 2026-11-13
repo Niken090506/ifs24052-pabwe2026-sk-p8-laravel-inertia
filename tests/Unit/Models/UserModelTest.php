@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Features\Post\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -29,6 +30,7 @@ class UserModelTest extends TestCase
         $user = User::factory()->create();
         Post::factory()->count(3)->create(['user_id' => $user->id]);
 
+        $this->assertInstanceOf(HasMany::class, $user->posts());
         $this->assertCount(3, $user->posts);
         $this->assertInstanceOf(Post::class, $user->posts->first());
     }
@@ -55,5 +57,8 @@ class UserModelTest extends TestCase
         Storage::disk('public')->put('profile-photos/avatar.png', 'content');
         $userWithPhoto = User::factory()->create(['profile_photo_path' => 'profile-photos/avatar.png']);
         $this->assertStringContainsString('avatar.png', $userWithPhoto->profilePhotoUrl());
+
+        $userWithMissingFile = User::factory()->create(['profile_photo_path' => 'profile-photos/missing.png']);
+        $this->assertStringContainsString('ui-avatars.com', $userWithMissingPhoto = $userWithMissingFile->profilePhotoUrl());
     }
 }

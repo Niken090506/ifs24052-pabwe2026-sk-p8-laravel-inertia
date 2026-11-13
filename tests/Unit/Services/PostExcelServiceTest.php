@@ -82,7 +82,10 @@ class PostExcelServiceTest extends TestCase
             [1, 'Excel Imported Post 1', 'Bisnis', 'Excerpt 1', 'Content 1', 'Published'],
             [2, 'Excel Imported Post 2', 'InvalidCategory', '-', '-', 'draft'],
             ['Article from Col A', '', 'Umum', '-', '-', 'draft'],
+            [4, 'Post Publikasi Status', 'Teknologi', 'Excerpt', 'Content', 'publikasi'],
+            [5, '??? ### !!!', 'Umum', 'Excerpt', 'Content', '1'],
             ['No', 'Title', 'Header Repeated', '', '', ''],
+            ['', '', '', '', '', ''],
         ]);
 
         $tempPath = tempnam(sys_get_temp_dir(), 'test_import') . '.xlsx';
@@ -92,11 +95,11 @@ class PostExcelServiceTest extends TestCase
         $result = $this->service->import($tempPath, $user->id);
         @unlink($tempPath);
 
-        $this->assertSame(3, $result['imported']);
+        $this->assertSame(5, $result['imported']);
         $this->assertEmpty($result['errors']);
 
         $importedPosts = Post::where('user_id', $user->id)->get();
-        $this->assertCount(3, $importedPosts);
+        $this->assertCount(5, $importedPosts);
 
         $post1 = $importedPosts->firstWhere('title', 'Excel Imported Post 1');
         $this->assertNotNull($post1);

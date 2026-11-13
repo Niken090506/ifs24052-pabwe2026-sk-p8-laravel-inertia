@@ -6,6 +6,7 @@ use App\Features\Ai\Contracts\AiClientInterface;
 use App\Features\Ai\Services\OpenAiPostGeneratorService;
 use App\Features\Post\Contracts\PostRepositoryInterface;
 use App\Features\Post\Repositories\PostRepository;
+use App\Models\User;
 use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -14,8 +15,11 @@ use Tests\TestCase;
 
 class AppServiceProviderTest extends TestCase
 {
-    public function test_service_bindings(): void
+    public function test_service_bindings_and_register(): void
     {
+        $provider = new AppServiceProvider($this->app);
+        $provider->register();
+
         $repo = app(PostRepositoryInterface::class);
         $this->assertInstanceOf(PostRepository::class, $repo);
 
@@ -37,21 +41,41 @@ class AppServiceProviderTest extends TestCase
         config(['app.force_https' => false]);
     }
 
+    public function test_boot_in_production_environment(): void
+    {
+        config(['app.force_https' => false]);
+        $origEnv = $this->app['env'];
+        $this->app['env'] = 'production';
+
+        $provider = new AppServiceProvider($this->app);
+        $provider->boot();
+
+        $this->assertStringStartsWith('https://', URL::to('/test'));
+
+        // Reset
+        $this->app['env'] = $origEnv;
+    }
+
     public function test_rate_limiters(): void
     {
-        $request = Request::create('/test', 'GET');
+        $guestRequest = Request::create('/test', 'GET');
 
-        $limiter1000 = RateLimiter::limiter('1000-per-second');
-        $this->assertNotNull($limiter1000);
-        $result = $limiter1000($request);
-        $this->assertEquals(1000, $result->maxAttempts);
+        $user = new User();
+        $user->id = 42;
+        $authRequest = Request::create('/test', 'GET');
+        $authRequest->setUserResolver(fn () => $user);
 
-        $limiterGlobal = RateLimiter::limiter('global');
-        $this->assertNotNull($limiterGlobal);
-        $this->assertEquals(1000, $limiterGlobal($request)->maxAttempts);
+        foreach (['1000-per-second', 'global', 'api'] as $limiterName) {
+            $limiter = RateLimiter::limiter($limiterName);
+            $this->assertNotNull($limiter);
 
-        $limiterApi = RateLimiter::limiter('api');
-        $this->assertNotNull($limiterApi);
-        $this->assertEquals(1000, $limiterApi($request)->maxAttempts);
+            // Test guest branch (falls back to IP)
+            $guestResult = $limiter($guestRequest);
+            $this->assertEquals(1000, $guestResult->maxAttempts);
+
+            // Test authenticated user branch (uses user ID)
+            $authResult = $limiter($authRequest);
+            $this->assertEquals(1000, $authResult->maxAttempts);
+        }
     }
 }

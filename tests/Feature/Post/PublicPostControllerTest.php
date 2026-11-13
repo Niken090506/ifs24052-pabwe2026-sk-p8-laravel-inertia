@@ -29,6 +29,30 @@ class PublicPostControllerTest extends TestCase
             );
     }
 
+    public function test_index_with_search_and_category_filters(): void
+    {
+        $user = User::factory()->create();
+        Post::factory()->published()->create([
+            'user_id' => $user->id,
+            'title' => 'Tutorial Laravel',
+            'category' => 'Teknologi',
+        ]);
+        Post::factory()->published()->create([
+            'user_id' => $user->id,
+            'title' => 'Tutorial Belajar Bisnis',
+            'category' => 'Bisnis',
+        ]);
+
+        $response = $this->get('/articles?search=Laravel&category=Teknologi');
+        $response->assertStatus(200)
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Public/PostIndex')
+                ->has('posts.data', 1)
+                ->where('filters.search', 'Laravel')
+                ->where('filters.category', 'Teknologi')
+            );
+    }
+
     public function test_show_published_post_success(): void
     {
         $author = User::factory()->create(['name' => 'Author A']);
@@ -51,6 +75,31 @@ class PublicPostControllerTest extends TestCase
                 ->component('Public/PostShow')
                 ->where('post.slug', 'artikel-keren')
                 ->where('post.author.name', 'Author A')
+                ->has('relatedPosts', 1)
+            );
+    }
+
+    public function test_show_falls_back_to_other_categories_when_same_category_empty(): void
+    {
+        $author = User::factory()->create(['name' => 'Author B']);
+        $post = Post::factory()->published()->create([
+            'user_id' => $author->id,
+            'slug' => 'post-kategori-tunggal',
+            'category' => 'Opini',
+        ]);
+
+        // Post in different category
+        Post::factory()->published()->create([
+            'user_id' => $author->id,
+            'slug' => 'post-kategori-lain',
+            'category' => 'Bisnis',
+        ]);
+
+        $response = $this->get('/articles/post-kategori-tunggal');
+
+        $response->assertStatus(200)
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Public/PostShow')
                 ->has('relatedPosts', 1)
             );
     }

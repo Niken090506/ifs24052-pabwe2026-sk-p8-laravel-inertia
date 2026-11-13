@@ -77,6 +77,13 @@ class PostServiceTest extends TestCase
         ]);
         $this->assertTrue($fresh->fresh()->is_published);
         $this->assertNotNull($fresh->fresh()->published_at);
+
+        // Update with identical title and partial data
+        $this->service->updatePost($fresh->fresh(), [
+            'title' => 'My Updated Post',
+            'excerpt' => 'Another excerpt update',
+        ]);
+        $this->assertSame('Another excerpt update', $fresh->fresh()->excerpt);
     }
 
     public function test_toggle_publication(): void
