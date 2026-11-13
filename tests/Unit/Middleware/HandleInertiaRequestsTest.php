@@ -46,8 +46,7 @@ class HandleInertiaRequestsTest extends TestCase
         $this->assertSame('Something failed', $shared['flash']['error']());
         $this->assertSame([['title' => 'AI Title']], $shared['flash']['aiGeneratedItems']());
 
-        $version = $middleware->version($request);
-        $this->assertTrue(is_null($version) || is_string($version));
+        $this->assertNull($middleware->version($request));
     }
 
     public function test_handle_inertia_with_guest_user(): void

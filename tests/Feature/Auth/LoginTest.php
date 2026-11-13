@@ -121,7 +121,7 @@ class LoginTest extends TestCase
         $member = User::factory()->member()->create();
 
         $response = $this->actingAs($member)->get('/login');
-        $response->assertRedirect('/');
+        $response->assertRedirect('/dashboard/posts');
     }
 
     public function test_user_can_logout(): void

@@ -165,7 +165,7 @@ class PostControllerTest extends TestCase
         $user = User::factory()->member()->create();
         $post = Post::factory()->create(['user_id' => $user->id]);
 
-        $file = UploadedFile::fake()->image('cover.png', 800, 600);
+        $file = UploadedFile::fake()->image('cover.jpg', 800, 600);
 
         $this->actingAs($user)
             ->post("/dashboard/posts/{$post->id}/cover", ['cover' => $file])

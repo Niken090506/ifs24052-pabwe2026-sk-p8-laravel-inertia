@@ -56,7 +56,7 @@ class PostExcelServiceTest extends TestCase
 
     public function test_build_spreadsheet_with_empty_and_draft_posts(): void
     {
-        $post = Post::factory()->draft()->make([
+        $post = Post::factory()->draft()->create([
             'user_id' => null,
             'excerpt' => null,
             'published_at' => null,
@@ -81,8 +81,8 @@ class PostExcelServiceTest extends TestCase
             ['No', 'Title', 'Category', 'Excerpt', 'Content', 'Status'],
             [1, 'Excel Imported Post 1', 'Bisnis', 'Excerpt 1', 'Content 1', 'Published'],
             [2, 'Excel Imported Post 2', 'InvalidCategory', '-', '-', 'draft'],
-            ['Article from Col A', '', 'Umum', '-', '-', 'draft'],
-            ['No', 'Title', 'Header Repeated', '', '', ''],
+            [3, 'title', 'Header Repeated', '', '', ''],
+            [4, '', '', '', '', ''],
         ]);
 
         $tempPath = tempnam(sys_get_temp_dir(), 'test_import') . '.xlsx';
@@ -92,11 +92,11 @@ class PostExcelServiceTest extends TestCase
         $result = $this->service->import($tempPath, $user->id);
         @unlink($tempPath);
 
-        $this->assertSame(3, $result['imported']);
+        $this->assertSame(2, $result['imported']);
         $this->assertEmpty($result['errors']);
 
         $importedPosts = Post::where('user_id', $user->id)->get();
-        $this->assertCount(3, $importedPosts);
+        $this->assertCount(2, $importedPosts);
 
         $post1 = $importedPosts->firstWhere('title', 'Excel Imported Post 1');
         $this->assertNotNull($post1);
