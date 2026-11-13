@@ -98,14 +98,14 @@ class PostServiceTest extends TestCase
         $user = User::factory()->create();
         $post = Post::factory()->create(['user_id' => $user->id]);
 
-        $file = UploadedFile::fake()->image('cover.jpg', 600, 400);
+        $file = UploadedFile::fake()->image('cover.png', 600, 400);
         $path = $this->service->updateCover($post, $file);
 
         $this->assertSame($path, $post->fresh()->cover_image_path);
         Storage::disk('public')->assertExists($path);
 
         // Update cover replaces previous
-        $file2 = UploadedFile::fake()->image('cover2.jpg', 600, 400);
+        $file2 = UploadedFile::fake()->image('cover2.png', 600, 400);
         $path2 = $this->service->updateCover($post->fresh(), $file2);
         Storage::disk('public')->assertMissing($path);
         Storage::disk('public')->assertExists($path2);

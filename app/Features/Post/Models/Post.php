@@ -83,5 +83,13 @@ class Post extends Model
     {
         return $query->where('is_published', false);
     }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): PostFactory
+    {
+        return PostFactory::new();
+    }
 }
 

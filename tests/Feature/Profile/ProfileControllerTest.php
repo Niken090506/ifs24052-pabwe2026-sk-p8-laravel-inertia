@@ -132,7 +132,7 @@ class ProfileControllerTest extends TestCase
         $user = User::factory()->create();
 
         // 1. Upload via file
-        $file = UploadedFile::fake()->image('avatar.jpg', 300, 300);
+        $file = UploadedFile::fake()->image('avatar.png', 300, 300);
         $this->actingAs($user)
             ->post('/profile/photo', ['photo' => $file])
             ->assertSessionHas('success');
