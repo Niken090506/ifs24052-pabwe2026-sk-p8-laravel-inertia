@@ -197,6 +197,7 @@ class PostControllerTest extends TestCase
         // Export
         $exportResponse = $this->actingAs($user)->get('/dashboard/posts/export');
         $exportResponse->assertStatus(200);
+        $this->assertNotEmpty($exportResponse->streamedContent());
 
         // Import
         $spreadsheet = new Spreadsheet();

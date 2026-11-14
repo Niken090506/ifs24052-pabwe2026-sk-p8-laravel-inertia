@@ -79,5 +79,6 @@ class AdminPostControllerTest extends TestCase
 
         $response = $this->actingAs($admin)->get('/admin/posts/export');
         $response->assertStatus(200);
+        $this->assertNotEmpty($response->streamedContent());
     }
 }

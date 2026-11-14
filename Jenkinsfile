@@ -182,6 +182,8 @@ pipeline {
 
                     echo "=== Tests Passed ==="
                     ls -lh coverage.xml coverage.txt || true
+                    echo "=== Coverage Text Report ==="
+                    cat coverage.txt || true
 
                     echo "=== Enforcing 100% Coverage (app/) ==="
                     php -r '
@@ -244,6 +246,22 @@ pipeline {
                         }
 
                         if ($failed) {
+                            echo "=== Uncovered Lines / Methods in coverage.xml ===" . PHP_EOL;
+                            foreach ($xml->xpath("//file") as $fileNode) {
+                                $filePath = (string) $fileNode["name"];
+                                $uncovered = [];
+                                foreach ($fileNode->line as $lineNode) {
+                                    if ((int) $lineNode["count"] === 0) {
+                                        $uncovered[] = "Line " . (string) $lineNode["num"] . " [" . (string) $lineNode["type"] . ": " . (string) $lineNode["name"] . "]";
+                                    }
+                                }
+                                if (!empty($uncovered)) {
+                                    echo "File: {$filePath}" . PHP_EOL;
+                                    foreach ($uncovered as $u) {
+                                        echo "  - {$u}" . PHP_EOL;
+                                    }
+                                }
+                            }
                             exit(1);
                         }
 

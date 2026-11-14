@@ -52,6 +52,11 @@ class PostExcelServiceTest extends TestCase
         $response = $this->service->exportToResponse($posts, 'test.xlsx');
         $this->assertInstanceOf(StreamedResponse::class, $response);
         $this->assertSame(200, $response->getStatusCode());
+
+        ob_start();
+        $response->sendContent();
+        $streamedContent = ob_get_clean();
+        $this->assertNotEmpty($streamedContent);
     }
 
     public function test_build_spreadsheet_with_empty_and_draft_posts(): void

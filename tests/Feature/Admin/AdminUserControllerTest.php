@@ -73,6 +73,7 @@ class AdminUserControllerTest extends TestCase
 
         $exportResponse = $this->actingAs($admin)->get("/admin/users/{$targetUser->id}/posts/export");
         $exportResponse->assertStatus(200);
+        $this->assertNotEmpty($exportResponse->streamedContent());
     }
 
     public function test_admin_can_filter_specific_user_posts(): void
