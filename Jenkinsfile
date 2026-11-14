@@ -373,10 +373,6 @@ pipeline {
 
                     rm -f latest-app.zip
 
-                    # Pre-seed SQLite database so package has ready-to-serve database
-                    touch database/database.sqlite
-                    php artisan migrate --force --seed
-
                     # vendor & node_modules sengaja tidak ikut zip
                     # (diinstal ulang di server deploy via composer/npm)
                     # .env.example tetap ikut; .env lokal tidak
