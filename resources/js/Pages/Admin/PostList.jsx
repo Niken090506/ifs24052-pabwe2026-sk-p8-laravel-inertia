@@ -48,6 +48,8 @@ export default function PostList({ posts, filters = {}, categories = [] }) {
                 <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row gap-3">
                     <div className="flex-1 relative">
                         <input
+                            id="admin-search-posts"
+                            aria-label="Cari judul artikel, konten, atau nama penulis"
                             type="text"
                             placeholder="Cari judul artikel, konten, atau nama penulis..."
                             value={search}

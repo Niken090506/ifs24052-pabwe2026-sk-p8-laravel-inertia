@@ -288,6 +288,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                 <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row gap-3">
                     <div className="flex-1 relative">
                         <input
+                            id="author-search-posts"
+                            aria-label="Cari artikel berdasarkan judul atau konten"
                             type="text"
                             placeholder="Cari artikel berdasarkan judul atau konten..."
                             value={search}
@@ -554,10 +556,12 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                     <form onSubmit={submitForm} className="flex-1 flex flex-col justify-between overflow-hidden">
                         <div className="flex-1 p-6 md:p-8 space-y-5 overflow-y-auto w-full max-w-5xl mx-auto">
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                <label htmlFor="create-post-title" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                     Judul Artikel *
                                 </label>
                                 <input
+                                    id="create-post-title"
+                                    aria-label="Judul Artikel"
                                     type="text"
                                     value={form.data.title}
                                     onChange={(e) => form.setData('title', e.target.value)}
@@ -570,10 +574,12 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                    <label htmlFor="create-post-category" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                         Kategori *
                                     </label>
                                     <select
+                                        id="create-post-category"
+                                        aria-label="Kategori Artikel"
                                         value={form.data.category}
                                         onChange={(e) => form.setData('category', e.target.value)}
                                         className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 font-semibold"
@@ -588,6 +594,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                                 <div className="flex items-center pt-6">
                                     <label className="flex items-center space-x-2 text-sm font-semibold text-slate-700 cursor-pointer">
                                         <input
+                                            id="create-post-publish"
+                                            aria-label="Publikasikan ke Pembaca Umum"
                                             type="checkbox"
                                             checked={form.data.is_published}
                                             onChange={(e) => form.setData('is_published', e.target.checked)}
@@ -708,6 +716,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                                 Pilih file spreadsheet (.xlsx, .xls, .csv). Kolom yang dibaca: No, Title, Category, Excerpt, Content, Status.
                             </p>
                             <input
+                                id="import-excel-file"
+                                aria-label="Pilih file spreadsheet Excel"
                                 type="file"
                                 accept=".xlsx,.xls,.csv"
                                 onChange={(e) => importForm.setData('importFile', e.target.files[0])}
@@ -759,10 +769,12 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                             )}
 
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                <label htmlFor="ai-prompt-input" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                     Topik atau Instruksi Penulisan
                                 </label>
                                 <textarea
+                                    id="ai-prompt-input"
+                                    aria-label="Topik atau Instruksi Penulisan"
                                     rows={3}
                                     value={aiPrompt}
                                     onChange={(e) => setAiPrompt(e.target.value)}
@@ -772,10 +784,12 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                <label htmlFor="ai-count-input" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                     Jumlah Artikel (Input Angka: 1 - 5)
                                 </label>
                                 <input
+                                    id="ai-count-input"
+                                    aria-label="Jumlah Artikel"
                                     type="number"
                                     min="1"
                                     max="5"
@@ -823,6 +837,7 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                                                 }`}
                                             >
                                                 <input
+                                                    aria-label={`Pilih artikel: ${item.title || 'Draft AI'}`}
                                                     type="checkbox"
                                                     checked={aiSelectedIndices.includes(idx)}
                                                     onChange={() => {}}

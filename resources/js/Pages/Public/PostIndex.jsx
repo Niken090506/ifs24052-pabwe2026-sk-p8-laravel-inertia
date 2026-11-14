@@ -79,6 +79,7 @@ export default function PostIndex({ posts, filters = {}, categories = [] }) {
                     <form onSubmit={handleSearchSubmit} className="flex gap-2 max-w-2xl">
                         <div className="relative flex-1">
                             <input
+                                id="public-search-input"
                                 type="text"
                                 aria-label="Cari artikel"
                                 placeholder="Cari artikel berdasarkan judul atau konten..."

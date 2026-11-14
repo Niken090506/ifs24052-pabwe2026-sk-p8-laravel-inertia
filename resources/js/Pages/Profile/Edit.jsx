@@ -150,6 +150,8 @@ export default function ProfileEdit({ user }) {
                                         </svg>
                                         <span>Unggah Foto Baru</span>
                                         <input
+                                            id="profile-avatar-file"
+                                            aria-label="Pilih foto profil baru"
                                             type="file"
                                             accept="image/*"
                                             onChange={handlePhotoSelect}

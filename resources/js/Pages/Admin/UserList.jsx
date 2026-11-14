@@ -29,6 +29,8 @@ export default function UserList({ users, filters = {} }) {
                 <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex items-center">
                     <div className="flex-1 relative">
                         <input
+                            id="admin-search-users"
+                            aria-label="Cari berdasarkan nama, username, atau email"
                             type="text"
                             placeholder="Cari berdasarkan nama, username, atau email..."
                             value={search}

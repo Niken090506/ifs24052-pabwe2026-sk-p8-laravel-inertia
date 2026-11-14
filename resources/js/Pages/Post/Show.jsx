@@ -157,6 +157,8 @@ export default function PostShow({ post, categories = [] }) {
                             <p className="text-xs text-slate-500">Belum ada foto sampul untuk artikel ini.</p>
                             <form onSubmit={handleUploadCover} className="flex flex-col sm:flex-row items-center justify-center gap-3">
                                 <input
+                                    id="post-cover-upload"
+                                    aria-label="Pilih foto sampul artikel"
                                     type="file"
                                     accept="image/*"
                                     onChange={(e) => setCoverFile(e.target.files[0])}
@@ -257,6 +259,8 @@ export default function PostShow({ post, categories = [] }) {
                                 <div className="flex items-center pt-6">
                                     <label className="flex items-center space-x-2 text-sm font-semibold text-slate-700 cursor-pointer">
                                         <input
+                                            id="edit-post-publish"
+                                            aria-label="Publikasikan ke Pembaca Umum"
                                             type="checkbox"
                                             checked={form.data.is_published}
                                             onChange={(e) => form.setData('is_published', e.target.checked)}
