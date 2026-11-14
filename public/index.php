@@ -19,13 +19,19 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 // Auto-initialize SQLite database if using SQLite and table is missing
 if (config('database.default') === 'sqlite') {
-    $dbPath = config('database.connections.sqlite.database') ?: database_path('database.sqlite');
+    $dbPath = database_path('database.sqlite');
     if (! file_exists($dbPath)) {
         @touch($dbPath);
     }
+    @chmod($dbPath, 0666);
+    @chmod(dirname($dbPath), 0777);
     try {
         if (! \Illuminate\Support\Facades\Schema::hasTable('users')) {
-            \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+            \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
+                '--database' => 'sqlite',
+                '--seed' => true,
+                '--force' => true,
+            ]);
         }
     } catch (\Throwable $e) {
         // Fallback or ignore

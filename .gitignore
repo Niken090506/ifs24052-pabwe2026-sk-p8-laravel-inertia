@@ -57,6 +57,7 @@ yarn-error.log*
 
 # Databases
 *.sqlite
+!database/database.sqlite
 *.sqlite-journal
 *.sqlite-shm
 *.sqlite-wal
