@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
@@ -22,6 +21,13 @@ foreach ($runtimeDirs as $dir) {
     @chmod($dir, 0777);
 }
 
+// Ensure sqlite database exists with permissions
+$dbPath = __DIR__.'/../database/database.sqlite';
+if (! file_exists($dbPath)) {
+    @touch($dbPath);
+}
+@chmod($dbPath, 0666);
+
 // Determine if the application is in maintenance mode...
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
@@ -31,28 +37,5 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 require __DIR__.'/../vendor/autoload.php';
 
 // Bootstrap Laravel and handle the request...
-/** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/app.php';
-
-// Auto-initialize SQLite database if using SQLite and table is missing
-if (config('database.default') === 'sqlite') {
-    $dbPath = database_path('database.sqlite');
-    if (! file_exists($dbPath)) {
-        @touch($dbPath);
-    }
-    @chmod($dbPath, 0666);
-    @chmod(dirname($dbPath), 0777);
-    try {
-        if (! \Illuminate\Support\Facades\Schema::hasTable('users')) {
-            \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
-                '--database' => 'sqlite',
-                '--seed' => true,
-                '--force' => true,
-            ]);
-        }
-    } catch (\Throwable $e) {
-        // Fallback or ignore
-    }
-}
-
-$app->handleRequest(Request::capture());
+(require_once __DIR__.'/../bootstrap/app.php')
+    ->handleRequest(Request::capture());
