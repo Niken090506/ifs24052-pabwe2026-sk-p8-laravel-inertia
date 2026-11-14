@@ -182,8 +182,6 @@ pipeline {
 
                     echo "=== Tests Passed ==="
                     ls -lh coverage.xml coverage.txt || true
-                    echo "=== Coverage Text Report ==="
-                    cat coverage.txt || true
 
                     echo "=== Enforcing 100% Coverage (app/) ==="
                     php -r '
@@ -246,22 +244,6 @@ pipeline {
                         }
 
                         if ($failed) {
-                            echo "=== Uncovered Lines / Methods in coverage.xml ===" . PHP_EOL;
-                            foreach ($xml->xpath("//file") as $fileNode) {
-                                $filePath = (string) $fileNode["name"];
-                                $uncovered = [];
-                                foreach ($fileNode->line as $lineNode) {
-                                    if ((int) $lineNode["count"] === 0) {
-                                        $uncovered[] = "Line " . (string) $lineNode["num"] . " [" . (string) $lineNode["type"] . ": " . (string) $lineNode["name"] . "]";
-                                    }
-                                }
-                                if (!empty($uncovered)) {
-                                    echo "File: {$filePath}" . PHP_EOL;
-                                    foreach ($uncovered as $u) {
-                                        echo "  - {$u}" . PHP_EOL;
-                                    }
-                                }
-                            }
                             exit(1);
                         }
 
@@ -372,13 +354,6 @@ pipeline {
                     echo "======================================"
 
                     rm -f latest-app.zip
-
-                    # Ensure proper directory structure and write permissions for SQLite and storage
-                    mkdir -p storage/framework/views storage/framework/cache/data storage/framework/sessions storage/framework/testing storage/logs bootstrap/cache database
-                    chmod -R 777 storage bootstrap/cache database || true
-                    if [ -f database/database.sqlite ]; then
-                        chmod 666 database/database.sqlite || true
-                    fi
 
                     # vendor & node_modules sengaja tidak ikut zip
                     # (diinstal ulang di server deploy via composer/npm)
