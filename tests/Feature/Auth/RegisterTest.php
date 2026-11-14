@@ -80,7 +80,7 @@ class RegisterTest extends TestCase
         $member = User::factory()->member()->create();
 
         $response = $this->actingAs($member)->get('/register');
-        $response->assertRedirect('/');
+        $response->assertRedirect('/dashboard');
     }
 
     public function test_register_user_action_direct_execution(): void
