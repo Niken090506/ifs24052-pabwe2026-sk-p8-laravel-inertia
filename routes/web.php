@@ -26,6 +26,9 @@ Route::middleware(['throttle:1000-per-second'])->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 
+        // Dashboard redirect
+        Route::get('/dashboard', fn () => redirect()->route('dashboard.posts.index'))->name('dashboard');
+
         // User Profile Routes
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

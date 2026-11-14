@@ -40,4 +40,13 @@ class RoutingTest extends TestCase
         $this->get('/up')
             ->assertStatus(200);
     }
+
+    public function test_dashboard_redirects_to_posts_index(): void
+    {
+        $member = User::factory()->member()->create();
+
+        $this->actingAs($member)
+            ->get('/dashboard')
+            ->assertRedirect(route('dashboard.posts.index'));
+    }
 }
