@@ -170,7 +170,7 @@ export default function ProfileEdit({ user }) {
                             )}
                         </div>
 
-                        <p className="text-[11px] text-slate-400 mt-4 leading-relaxed">
+                        <p className="text-[11px] text-slate-600 mt-4 leading-relaxed">
                             Mendukung JPG, PNG, GIF hingga 5MB. Foto diproses otomatis menjadi rasio 1:1.
                         </p>
                     </div>
@@ -180,12 +180,14 @@ export default function ProfileEdit({ user }) {
                         {/* Personal Info Form */}
                         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-1">Identitas Akun</h2>
-                            <p className="text-xs text-slate-500 mb-4">Perbarui informasi profil dan alamat email Anda</p>
+                            <p className="text-xs text-slate-600 mb-4">Perbarui informasi profil dan alamat email Anda</p>
 
                             <form onSubmit={submitInfo} className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Nama Lengkap</label>
+                                    <label htmlFor="profile-name" className="block text-xs font-semibold text-slate-700">Nama Lengkap</label>
                                     <input
+                                        id="profile-name"
+                                        aria-label="Nama Lengkap"
                                         type="text"
                                         value={infoForm.data.name}
                                         onChange={(e) => infoForm.setData('name', e.target.value)}
@@ -196,8 +198,10 @@ export default function ProfileEdit({ user }) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Username</label>
+                                    <label htmlFor="profile-username" className="block text-xs font-semibold text-slate-700">Username</label>
                                     <input
+                                        id="profile-username"
+                                        aria-label="Username"
                                         type="text"
                                         value={infoForm.data.username}
                                         onChange={(e) => infoForm.setData('username', e.target.value)}
@@ -208,8 +212,10 @@ export default function ProfileEdit({ user }) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Email</label>
+                                    <label htmlFor="profile-email" className="block text-xs font-semibold text-slate-700">Email</label>
                                     <input
+                                        id="profile-email"
+                                        aria-label="Email"
                                         type="email"
                                         value={infoForm.data.email}
                                         onChange={(e) => infoForm.setData('email', e.target.value)}
@@ -244,12 +250,14 @@ export default function ProfileEdit({ user }) {
                         {/* Password Form */}
                         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-1">Perbarui Password</h2>
-                            <p className="text-xs text-slate-500 mb-4">Gunakan password yang kuat untuk menjaga keamanan akun Anda</p>
+                            <p className="text-xs text-slate-600 mb-4">Gunakan password yang kuat untuk menjaga keamanan akun Anda</p>
 
                             <form onSubmit={submitPassword} className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Password Saat Ini</label>
+                                    <label htmlFor="profile-current-password" className="block text-xs font-semibold text-slate-700">Password Saat Ini</label>
                                     <input
+                                        id="profile-current-password"
+                                        aria-label="Password Saat Ini"
                                         type="password"
                                         value={passwordForm.data.current_password}
                                         onChange={(e) => passwordForm.setData('current_password', e.target.value)}
@@ -262,8 +270,10 @@ export default function ProfileEdit({ user }) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Password Baru</label>
+                                    <label htmlFor="profile-password" className="block text-xs font-semibold text-slate-700">Password Baru</label>
                                     <input
+                                        id="profile-password"
+                                        aria-label="Password Baru"
                                         type="password"
                                         value={passwordForm.data.password}
                                         onChange={(e) => passwordForm.setData('password', e.target.value)}
@@ -276,8 +286,10 @@ export default function ProfileEdit({ user }) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Konfirmasi Password Baru</label>
+                                    <label htmlFor="profile-password-confirmation" className="block text-xs font-semibold text-slate-700">Konfirmasi Password Baru</label>
                                     <input
+                                        id="profile-password-confirmation"
+                                        aria-label="Konfirmasi Password Baru"
                                         type="password"
                                         value={passwordForm.data.password_confirmation}
                                         onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}

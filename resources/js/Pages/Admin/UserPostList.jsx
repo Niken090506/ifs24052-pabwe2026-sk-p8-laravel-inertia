@@ -50,7 +50,7 @@ export default function UserPostList({ targetUser, posts, filters = {}, categori
 
                     <a
                         href={`/admin/users/${targetUser.id}/posts/export`}
-                        className="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition shrink-0"
+                        className="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold rounded-xl shadow-xs transition shrink-0"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -72,13 +72,15 @@ export default function UserPostList({ targetUser, posts, filters = {}, categori
                             }}
                             className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                         />
-                        <svg className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
 
                     <div className="sm:w-44">
                         <select
+                            id="user-post-filter-category"
+                            aria-label="Filter Kategori Artikel"
                             value={category}
                             onChange={(e) => {
                                 setCategory(e.target.value);
@@ -95,6 +97,8 @@ export default function UserPostList({ targetUser, posts, filters = {}, categori
 
                     <div className="sm:w-36">
                         <select
+                            id="user-post-filter-status"
+                            aria-label="Filter Status Publikasi"
                             value={status}
                             onChange={(e) => {
                                 setStatus(e.target.value);
@@ -125,7 +129,7 @@ export default function UserPostList({ targetUser, posts, filters = {}, categori
                             <tbody className="divide-y divide-slate-100">
                                 {posts?.data?.length === 0 ? (
                                     <tr>
-                                        <td colSpan={5} className="px-6 py-8 text-center text-slate-400">
+                                        <td colSpan={5} className="px-6 py-8 text-center text-slate-600">
                                             Pengguna ini belum memiliki artikel yang cocok dengan filter.
                                         </td>
                                     </tr>
@@ -134,7 +138,7 @@ export default function UserPostList({ targetUser, posts, filters = {}, categori
                                         <tr key={post.id} className="hover:bg-slate-50/60 transition">
                                             <td className="px-6 py-4">
                                                 <p className="font-bold text-slate-900">{post.title}</p>
-                                                <p className="text-slate-400 text-[11px] line-clamp-1">{post.excerpt || 'Tidak ada ringkasan'}</p>
+                                                <p className="text-slate-600 text-[11px] line-clamp-1">{post.excerpt || 'Tidak ada ringkasan'}</p>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <span className="font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full text-[10px]">
@@ -150,7 +154,7 @@ export default function UserPostList({ targetUser, posts, filters = {}, categori
                                                     {post.is_published ? 'Dipublikasikan' : 'Draf'}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-slate-400">
+                                            <td className="px-6 py-4 text-slate-600">
                                                 {post.created_at ? new Date(post.created_at).toLocaleDateString('id-ID') : '-'}
                                             </td>
                                             <td className="px-6 py-4 text-right">
@@ -163,7 +167,7 @@ export default function UserPostList({ targetUser, posts, filters = {}, categori
                                                         <span>&rarr;</span>
                                                     </Link>
                                                 ) : (
-                                                    <span className="text-xs text-slate-400 italic">Draf Internal</span>
+                                                    <span className="text-xs text-slate-600 italic">Draf Internal</span>
                                                 )}
                                             </td>
                                         </tr>

@@ -86,7 +86,7 @@ export default function PostIndex({ posts, filters = {}, categories = [] }) {
                                 onChange={(e) => setSearch(e.target.value)}
                                 className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
                             />
-                            <svg className="w-5 h-5 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
@@ -131,13 +131,13 @@ export default function PostIndex({ posts, filters = {}, categories = [] }) {
                 {/* Articles Grid */}
                 {posts?.data?.length === 0 ? (
                     <div className="bg-white rounded-3xl border border-slate-200/80 p-16 text-center shadow-xs">
-                        <div className="w-16 h-16 mx-auto mb-4 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center">
+                        <div className="w-16 h-16 mx-auto mb-4 bg-slate-100 text-slate-500 rounded-2xl flex items-center justify-center">
                             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                             </svg>
                         </div>
                         <h3 className="text-lg font-bold text-slate-800">Tidak Ada Artikel Ditemukan</h3>
-                        <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                        <p className="text-xs text-slate-600 mt-1 max-w-sm mx-auto">
                             Coba ubah kata kunci pencarian atau pilih kategori yang lain.
                         </p>
                     </div>
@@ -158,7 +158,7 @@ export default function PostIndex({ posts, filters = {}, categories = [] }) {
                                         />
                                     ) : (
                                         <div className="w-full h-full bg-gradient-to-br from-blue-500/20 via-indigo-500/20 to-purple-500/20 flex items-center justify-center p-6 text-center">
-                                            <span className="font-extrabold text-slate-400 text-lg tracking-tight">
+                                            <span className="font-extrabold text-slate-600 text-lg tracking-tight">
                                                 {post.category}
                                             </span>
                                         </div>
@@ -178,7 +178,7 @@ export default function PostIndex({ posts, filters = {}, categories = [] }) {
                                                 {post.title}
                                             </Link>
                                         </h2>
-                                        <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
+                                        <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
                                             {post.excerpt || post.content?.substring(0, 150) + '...'}
                                         </p>
                                     </div>
@@ -190,7 +190,7 @@ export default function PostIndex({ posts, filters = {}, categories = [] }) {
                                             </div>
                                             <div className="text-[11px]">
                                                 <p className="font-bold text-slate-800 leading-none">{post.user?.name}</p>
-                                                <p className="text-slate-400 mt-0.5">{post.published_at ? new Date(post.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}</p>
+                                                <p className="text-slate-600 mt-0.5 font-medium">{post.published_at ? new Date(post.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}</p>
                                             </div>
                                         </div>
 

@@ -28,7 +28,7 @@ export default function PostShow({ post, relatedPosts = [] }) {
                         <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700">
                             {post.category}
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-slate-600 font-medium">
                             Dipublikasikan pada {post.published_at || post.created_at}
                         </span>
                     </div>
@@ -59,7 +59,7 @@ export default function PostShow({ post, relatedPosts = [] }) {
                             </div>
                             <div>
                                 <h3 className="font-bold text-slate-900 text-sm">{post.author.name}</h3>
-                                <p className="text-xs text-slate-400">Penulis di BlogVerse Pro</p>
+                                <p className="text-xs text-slate-600">Penulis di BlogVerse Pro</p>
                             </div>
                         </div>
 

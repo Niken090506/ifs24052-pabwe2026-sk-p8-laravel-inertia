@@ -209,8 +209,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                             </svg>
                         </div>
                         <div>
-                            <span className="text-xs font-semibold text-slate-500">Total Artikel</span>
-                            <h3 className="text-2xl font-black text-slate-900 leading-tight">{stats.total ?? 0}</h3>
+                            <span className="text-xs font-semibold text-slate-600">Total Artikel</span>
+                            <p className="text-2xl font-black text-slate-900 leading-tight">{stats.total ?? 0}</p>
                         </div>
                     </div>
 
@@ -222,8 +222,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                             </svg>
                         </div>
                         <div>
-                            <span className="text-xs font-semibold text-slate-500">Total Selesai (Publikasi)</span>
-                            <h3 className="text-2xl font-black text-emerald-600 leading-tight">{stats.published ?? 0}</h3>
+                            <span className="text-xs font-semibold text-slate-600">Total Selesai (Publikasi)</span>
+                            <p className="text-2xl font-black text-emerald-600 leading-tight">{stats.published ?? 0}</p>
                         </div>
                     </div>
 
@@ -235,8 +235,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                             </svg>
                         </div>
                         <div>
-                            <span className="text-xs font-semibold text-slate-500">Belum Selesai (Draf)</span>
-                            <h3 className="text-2xl font-black text-amber-600 leading-tight">{stats.draft ?? 0}</h3>
+                            <span className="text-xs font-semibold text-slate-600">Belum Selesai (Draf)</span>
+                            <p className="text-2xl font-black text-amber-600 leading-tight">{stats.draft ?? 0}</p>
                         </div>
                     </div>
                 </div>
@@ -297,13 +297,15 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                             }}
                             className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <svg className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
 
                     <div className="sm:w-44">
                         <select
+                            id="author-filter-category"
+                            aria-label="Filter Kategori Artikel"
                             value={categoryFilter}
                             onChange={(e) => {
                                 setCategoryFilter(e.target.value);
@@ -320,6 +322,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
 
                     <div className="sm:w-36">
                         <select
+                            id="author-filter-status"
+                            aria-label="Filter Status Publikasi"
                             value={statusFilter}
                             onChange={(e) => {
                                 setStatusFilter(e.target.value);
@@ -337,7 +341,7 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                 {/* 2. Daftar Artikel Penulis: List View (Bukan Card, Tanpa Deskripsi Panjang) */}
                 {posts?.data?.length === 0 ? (
                     <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center">
-                        <div className="w-16 h-16 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                        <div className="w-16 h-16 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500 mb-4">
                             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                             </svg>
@@ -408,14 +412,14 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                                                 }`}>
                                                     {isPub ? 'Dipublikasikan' : 'Draf'}
                                                 </span>
-                                                <span className="text-[11px] text-slate-400">
+                                                <span className="text-[11px] text-slate-600 font-medium">
                                                     {post.created_at ? new Date(post.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Right: Menu Tindakan Kebab (â‹®) */}
+                                    {/* Right: Menu Tindakan Kebab */}
                                     <div className="relative post-menu-container flex items-center space-x-2 shrink-0">
                                         {/* Quick Toggle Button */}
                                         <button
@@ -423,8 +427,8 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                                             onClick={() => togglePublish(post)}
                                             className={`text-xs px-2.5 py-1 font-bold rounded-lg transition ${
                                                 isPub
-                                                    ? 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-                                                    : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                                                    ? 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                                    : 'bg-emerald-800 hover:bg-emerald-900 text-white'
                                             }`}
                                         >
                                             {isPub ? 'Jadikan Draf' : 'Publikasikan'}
@@ -437,10 +441,10 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                                                 e.stopPropagation();
                                                 setActiveMenuId(activeMenuId === post.id ? null : post.id);
                                             }}
-                                            className="w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-600 font-bold transition"
+                                            className="w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-700 font-bold transition"
                                             aria-label="Menu Tindakan"
                                         >
-                                            <span className="text-lg leading-none">â‹®</span>
+                                            <span className="text-lg leading-none" aria-hidden="true">&#8942;</span>
                                         </button>
 
                                         {/* Dropdown Menu Items */}
@@ -697,7 +701,7 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                     <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl">
                         <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                             <h3 className="text-base font-bold text-slate-900">Impor Artikel dari Excel</h3>
-                            <button onClick={() => setShowImportModal(false)} className="text-slate-400 hover:text-slate-700">âœ•</button>
+                            <button onClick={() => setShowImportModal(false)} aria-label="Tutup modal impor" className="text-slate-600 hover:text-slate-800">✕</button>
                         </div>
                         <form onSubmit={submitImport} className="space-y-4">
                             <p className="text-xs text-slate-500">
@@ -741,10 +745,10 @@ export default function PostIndex({ posts, filters = {}, categories = [], stats 
                                 <span className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-sm">âœ¨</span>
                                 <div>
                                     <h3 className="text-base font-bold text-slate-900">AI Article Generator</h3>
-                                    <p className="text-xs text-slate-400">Buat draf artikel instan dengan bantuan OpenAI</p>
+                                    <p className="text-xs text-slate-600">Buat draf artikel instan dengan bantuan OpenAI</p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowAiModal(false)} className="text-slate-400 hover:text-slate-700">âœ•</button>
+                            <button onClick={() => setShowAiModal(false)} aria-label="Tutup modal AI" className="text-slate-600 hover:text-slate-800">✕</button>
                         </div>
 
                         <div className="space-y-4 overflow-y-auto flex-1 pr-1">

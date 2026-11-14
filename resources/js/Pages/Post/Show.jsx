@@ -123,7 +123,7 @@ export default function PostShow({ post, categories = [] }) {
                             </Link>
                         )}
                     </div>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-xs text-slate-600 font-medium">
                         Dibuat: {post.created_at} | Terakhir diubah: {post.updated_at}
                     </div>
                 </div>
@@ -178,7 +178,7 @@ export default function PostShow({ post, categories = [] }) {
                 {/* Excerpt Section */}
                 {post.excerpt && (
                     <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200/80">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 block mb-1">
                             Ringkasan Pemikat (Excerpt)
                         </span>
                         <p className="text-sm text-slate-700 leading-relaxed font-medium">
@@ -189,7 +189,7 @@ export default function PostShow({ post, categories = [] }) {
 
                 {/* Markdown Content (Rendered via TOAST UI Viewer) */}
                 <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block pb-2 border-b border-slate-100">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-600 block pb-2 border-b border-slate-100">
                         Konten Artikel (Format Markdown)
                     </span>
                     <div className="prose prose-slate max-w-none pt-2">
@@ -203,27 +203,29 @@ export default function PostShow({ post, categories = [] }) {
                 <div className="fixed inset-0 z-50 flex flex-col bg-white">
                     <div className="px-6 md:px-8 py-4 bg-indigo-600 text-white flex items-center justify-between shrink-0 shadow-xs">
                         <div className="flex items-center space-x-3">
-                            <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center font-black text-sm">âœ </span>
+                            <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center font-black text-sm">✓</span>
                             <div>
                                 <h3 className="text-base font-bold leading-tight">Ubah Artikel</h3>
-                                <p className="text-xs text-white/80">Perbarui judul, kategori, ringkasan, atau isi markdown artikel Anda</p>
+                                <p className="text-xs text-white/90">Perbarui judul, kategori, ringkasan, atau isi markdown artikel Anda</p>
                             </div>
                         </div>
                         <button
                             onClick={() => setShowEditModal(false)}
+                            aria-label="Tutup modal ubah artikel"
                             className="text-white/80 hover:text-white p-1.5 rounded-xl hover:bg-black/10 transition"
                         >
-                            âœ•
+                            ✕
                         </button>
                     </div>
 
                     <form onSubmit={submitEdit} className="flex-1 flex flex-col justify-between overflow-hidden">
                         <div className="flex-1 p-6 md:p-8 space-y-5 overflow-y-auto w-full max-w-5xl mx-auto">
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                <label htmlFor="edit-post-title" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                     Judul Artikel *
                                 </label>
                                 <input
+                                    id="edit-post-title"
                                     type="text"
                                     value={form.data.title}
                                     onChange={(e) => form.setData('title', e.target.value)}
@@ -235,10 +237,12 @@ export default function PostShow({ post, categories = [] }) {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                    <label htmlFor="edit-post-category" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                         Kategori *
                                     </label>
                                     <select
+                                        id="edit-post-category"
+                                        aria-label="Kategori Artikel"
                                         value={form.data.category}
                                         onChange={(e) => form.setData('category', e.target.value)}
                                         className="mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 font-semibold"

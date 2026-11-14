@@ -14,16 +14,16 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <main className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <Head title="Masuk - BlogVerse Pro" />
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
                 <Link href="/" className="inline-flex w-12 h-12 rounded-2xl bg-blue-600 items-center justify-center text-white font-extrabold text-2xl shadow-md">
                     B
                 </Link>
-                <h2 className="mt-4 text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h1 className="mt-4 text-3xl font-extrabold text-slate-900 tracking-tight">
                     BlogVerse Pro
-                </h2>
+                </h1>
                 <p className="mt-2 text-sm text-slate-600">
                     Masuk ke akun Anda untuk mulai menulis dan mengelola artikel
                 </p>
@@ -121,20 +121,20 @@ export default function Login() {
                     </form>
 
                     <div className="mt-6 text-center text-sm">
-                        <span className="text-slate-500">Belum punya akun penulis? </span>
+                        <span className="text-slate-600">Belum punya akun penulis? </span>
                         <Link href="/register" className="font-semibold text-blue-600 hover:text-blue-500">
                             Daftar sekarang
                         </Link>
                     </div>
 
                     <div className="mt-4 text-center">
-                        <Link href="/" className="text-xs text-slate-400 hover:text-slate-600">
+                        <Link href="/" className="text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
                             &larr; Kembali ke Beranda Publik
                         </Link>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
 

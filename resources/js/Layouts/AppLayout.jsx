@@ -112,7 +112,7 @@ export default function AppLayout({ children, isPublic = false }) {
                                     <button
                                         onClick={handleLogout}
                                         aria-label="Keluar (Logout)"
-                                        className="p-2 text-slate-400 hover:text-rose-600 transition rounded-xl hover:bg-rose-50"
+                                        className="p-2 text-slate-600 hover:text-rose-600 transition rounded-xl hover:bg-rose-50"
                                         title="Keluar (Logout)"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,7 +170,7 @@ export default function AppLayout({ children, isPublic = false }) {
                 </main>
 
                 {/* Footer Editorial di Bagian Bawah */}
-                <footer className="bg-slate-900 text-slate-400 border-t border-slate-800 mt-16">
+                <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                             <div className="md:col-span-2 space-y-3">
@@ -180,13 +180,13 @@ export default function AppLayout({ children, isPublic = false }) {
                                     </div>
                                     <span className="text-white font-bold text-lg tracking-tight">{appName}</span>
                                 </div>
-                                <p className="text-xs text-slate-400 leading-relaxed max-w-md">
+                                <p className="text-xs text-slate-300 leading-relaxed max-w-md">
                                     Platform publikasi artikel multi-tier modern dengan arsitektur Clean Architecture & Feature-First bertenaga Laravel 13, Inertia.js, React, dan AI OpenAI.
                                 </p>
                             </div>
 
                             <div>
-                                <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Navigasi Publik</h4>
+                                <h2 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Navigasi Publik</h2>
                                 <ul className="space-y-2 text-xs">
                                     <li>
                                         <Link href="/" className="hover:text-white transition">Beranda Publik</Link>
@@ -198,7 +198,7 @@ export default function AppLayout({ children, isPublic = false }) {
                             </div>
 
                             <div>
-                                <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Akses Komunitas</h4>
+                                <h2 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Akses Komunitas</h2>
                                 <ul className="space-y-2 text-xs">
                                     <li>
                                         <Link href="/login" className="hover:text-white transition flex items-center space-x-1.5">
@@ -214,7 +214,7 @@ export default function AppLayout({ children, isPublic = false }) {
                             </div>
                         </div>
 
-                        <div className="pt-8 border-t border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="pt-8 border-t border-slate-800 text-xs text-slate-300 flex flex-col sm:flex-row items-center justify-between gap-4">
                             <p>&copy; {new Date().getFullYear()} {appName}. Hak cipta dilindungi.</p>
                             <p>Praktik Laravel 13, Inertia.js & React (Feature-First)</p>
                         </div>
@@ -323,14 +323,14 @@ export default function AppLayout({ children, isPublic = false }) {
                         href="/"
                         className="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50/60 transition"
                     >
-                        <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                         <span>Lihat Blog Publik</span>
                     </Link>
 
                     <div className="pt-2 pb-1">
-                        <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        <p className="px-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider">
                             Menu Penulis
                         </p>
                     </div>
@@ -349,7 +349,7 @@ export default function AppLayout({ children, isPublic = false }) {
                         href="/profile"
                         className="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 transition"
                     >
-                        <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                         <span>Edit Profil Penulis</span>
