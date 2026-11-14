@@ -17,7 +17,13 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => (function () {
+        $conn = env('DB_CONNECTION', 'sqlite');
+        if ($conn === 'pgsql' && ! env('DB_HOST')) {
+            return 'sqlite';
+        }
+        return $conn ?: 'sqlite';
+    })(),
 
     /*
     |--------------------------------------------------------------------------
@@ -35,13 +41,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => (function () {
-                $db = env('DB_DATABASE');
-                if (empty($db) || $db === 'database/database.sqlite' || ! str_contains($db, DIRECTORY_SEPARATOR)) {
-                    return database_path('database.sqlite');
-                }
-                return $db;
-            })(),
+            'database' => database_path('database.sqlite'),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,

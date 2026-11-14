@@ -373,6 +373,13 @@ pipeline {
 
                     rm -f latest-app.zip
 
+                    # Ensure proper directory structure and write permissions for SQLite and storage
+                    mkdir -p storage/framework/views storage/framework/cache/data storage/framework/sessions storage/framework/testing storage/logs bootstrap/cache database
+                    chmod -R 777 storage bootstrap/cache database || true
+                    if [ -f database/database.sqlite ]; then
+                        chmod 666 database/database.sqlite || true
+                    fi
+
                     # vendor & node_modules sengaja tidak ikut zip
                     # (diinstal ulang di server deploy via composer/npm)
                     # .env.example tetap ikut; .env lokal tidak
